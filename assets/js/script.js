@@ -4908,11 +4908,107 @@ const titles = {
     ]
 };
 
+const Technologies = {
+    "web-based": {
+        "front-end": {
+            "technologies": [
+                "HTML", "JavaScript", "TypeScript", "Pug",
+            ],
+            "frameworks": [
+                "React", "Angular", "Vue.js", "Svelte", 
+                "Foundation", "Ember.js", "Ionic", "Webpack"
+            ],
+            "libraries": [
+                "jQuery", "Backbone.js", "D3.js", "Chart.js"
+            ]
+        },
+        "design": [
+            "Figma", "Adobe XD", "Sketch",
+            "Photoshop", "Illustrator", "InVision",
+            "Canva", "CorelDRAW", "GIMP",
+            "Adobe After Effects", "Adobe Premiere Pro"
+        ],
+        "css-frameworks": [
+            "CSS", "Bootstrap", "Tailwind CSS", "Bulma",
+            "Foundation", "Materialize", "Semantic UI",
+            "UIKit", "Ant Design", "Milligram"
+        ],
+        "back-end": {
+            "technologies": [
+                "PHP", "Python", "Java", "Ruby", "Node.js",
+                "C#", "Go",
+                "Django", "Flask", "Express.js", "Spring",
+                "ASP.NET", "Ruby on Rails", "Laravel", "FastAPI",
+                "GraphQL", "REST APIs", "Serverless Functions"
+            ],
+            "frameworks": [
+                "Express.js", "Django", "Laravel", "Spring"
+            ],
+            "libraries": [
+                "FastAPI", "Hapi.js"
+            ]
+        },
+        "database": {
+            "technologies": [
+                "MySQL",
+                "PostgreSQL",
+                "MongoDB",
+                "SQLite",
+                "Microsoft SQL Server",
+                "Oracle Database",
+                "Redis",
+                "Cassandra",
+                "Firebase Realtime Database",
+                "DynamoDB",
+                "MariaDB",
+                "CouchDB"
+            ],
+            "frameworks": [
+                "Sequelize (for Node.js)", "Django ORM", "SQLAlchemy"
+            ],
+            "libraries": [
+                "Mongoose (for MongoDB)", "TypeORM"
+            ]
+        }
+    },
+    "app-based": [
+        "React Native", "Flutter", "Xamarin",
+        "Swift (iOS)", "Kotlin (Android)",
+        "Ionic", "PhoneGap", "NativeScript",
+        "Unity", "Corona SDK", "Appcelerator",
+        "Progressive Web Apps (PWAs)", "Sencha Touch"
+    ],
+    "iot-based": [
+        "Arduino", "Raspberry Pi", "ESP8266",
+        "MQTT", "CoAP", "HTTP/2",
+        "Node-RED", "AWS IoT", "Azure IoT Hub",
+        "Google Cloud IoT", "ThingSpeak", "Kaa",
+        "OpenHAB", "Home Assistant", "Zigbee"
+    ],
+    "data-science": [
+        "Python (Pandas, NumPy, Matplotlib)",
+        "R", "SQL", "Scala",
+        "Apache Spark", "Hadoop", "TensorFlow",
+        "PyTorch", "Keras", "Jupyter Notebook",
+        "Power BI", "Tableau", "SAS"
+    ],
+    "blockchain": [
+        "Ethereum", "Bitcoin", "Hyperledger Fabric",
+        "Solidity", "Truffle", "Web3.js",
+        "IPFS", "Chaincode", "Corda",
+        "EOSIO", "Tezos", "Cardano",
+        "Polkadot", "Ripple", "Stellar"
+    ]
+};
+
+const titleCounts = {};
+
 function generateTitle() {
     const category = document.getElementById("category").value;
     const loadingSpinner = document.getElementById("loadingSpinner");
     const resultBox = document.getElementById("result");
     const generatedTitle = document.getElementById("generatedTitle");
+    const technologiesOutput = document.getElementById("technologies");
 
     loadingSpinner.style.display = "block";
     resultBox.classList.add("d-none");
@@ -4921,9 +5017,62 @@ function generateTitle() {
         const titlesList = titles[category];
         const randomTitle = titlesList[Math.floor(Math.random() * titlesList.length)];
 
+        if (titleCounts[randomTitle]) {
+            titleCounts[randomTitle]++;
+        } else {
+            titleCounts[randomTitle] = 1;
+        }
+
+        let techFrontEnd = [];
+        let techBackEnd = [];
+        let techDatabase = [];
+        let techDesign = "";
+        let techCSSFrameworks = "";
+        let techLibraries = [];
+
+        if (category === "web-based") {
+            const useFrameworks = confirm("Do you want to use frameworks?");
+
+            techFrontEnd.push(useFrameworks 
+                ? Technologies[category]["front-end"]["frameworks"][Math.floor(Math.random() * Technologies[category]["front-end"]["frameworks"].length)] 
+                : Technologies[category]["front-end"]["technologies"][Math.floor(Math.random() * Technologies[category]["front-end"]["technologies"].length)]);
+
+            techLibraries.push(Technologies[category]["front-end"]["libraries"][Math.floor(Math.random() * Technologies[category]["front-end"]["libraries"].length)]);
+            
+            techBackEnd.push(useFrameworks 
+                ? Technologies[category]["back-end"]["frameworks"][Math.floor(Math.random() * Technologies[category]["back-end"]["frameworks"].length)] 
+                : Technologies[category]["back-end"]["technologies"][Math.floor(Math.random() * Technologies[category]["back-end"]["technologies"].length)]);
+
+            techDatabase.push(useFrameworks 
+                ? Technologies[category]["database"]["frameworks"][Math.floor(Math.random() * Technologies[category]["database"]["frameworks"].length)] 
+                : Technologies[category]["database"]["technologies"][Math.floor(Math.random() * Technologies[category]["database"]["technologies"].length)]);
+
+            techCSSFrameworks = Technologies[category]["css-frameworks"][Math.floor(Math.random() * Technologies[category]["css-frameworks"].length)];
+            techDesign = Technologies[category]["design"][Math.floor(Math.random() * Technologies[category]["design"].length)];
+        } else {
+            techFrontEnd.push(Technologies[category][Math.floor(Math.random() * Technologies[category].length)]);
+        }
+
         generatedTitle.innerText = randomTitle;
+
+        if (category === "web-based") {
+            technologiesOutput.innerHTML = `
+                <strong>Technologies Used:</strong><br>
+                <ul>
+                    <li><strong>Front-end:</strong> ${techFrontEnd.join(", ")} (Library: ${techLibraries.join(", ")})</li>
+                    <li><strong>CSS Frameworks:</strong> ${techCSSFrameworks}</li>
+                    <li><strong>Back-end:</strong> ${techBackEnd.join(", ")}</li>
+                    <li><strong>Database:</strong> ${techDatabase.join(", ")}</li>
+                    <li><strong>Design Tools:</strong> ${techDesign}</li>
+                </ul>
+                <p class="mt-3">You can customize the technologies you use as you like; these are just ideas to build upon.</p>
+                <p><strong>This title has been generated ${titleCounts[randomTitle]} times.</strong></p>
+            `;
+        } else {
+            technologiesOutput.innerHTML = `<strong>Technologies to Use:</strong> ${techFrontEnd}`;
+        }
 
         loadingSpinner.style.display = "none";
         resultBox.classList.remove("d-none");
     }, 1000);
-    }
+}
