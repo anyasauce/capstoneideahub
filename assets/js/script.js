@@ -5066,7 +5066,7 @@ function generateTitle() {
                     <li><strong>Design Tools:</strong> ${techDesign}</li>
                 </ul>
                 <p class="mt-3">You can customize the technologies you use as you like; these are just ideas to build upon.</p>
-                <p><strong>This title has been generated ${titleCounts[randomTitle]} times.</strong></p>
+                <p><strong>This title has been generated ${titleCounts[randomTitle]} time.</strong></p>
             `;
         } else {
             technologiesOutput.innerHTML = `<strong>Technologies to Use:</strong> ${techFrontEnd}`;
