@@ -1418,7 +1418,6 @@ const titles = {
         "Online Personal Growth Challenges",
         "Digital Recipe Collection and Sharing Platform"
     ],
-
     "app-based": [
         "Real-Time Language Translation App",
         "Health Monitoring Mobile App Using ML",
@@ -2286,7 +2285,6 @@ const titles = {
         "Digital Mental Wellness and Mindfulness Resources for Seniors, Young Adults, Families, Individuals from Various Locations, Cultures App",
         "Interactive Family Game Night and Activities for Kids, Teens, Adults, Families of All Ages, Backgrounds from Various Locations, Cultures App"
     ],
-
    "iot-based": [
         "Smart Home Automation System",
         "IoT-Based Smart Water Management System",
@@ -4907,7 +4905,6 @@ const titles = {
     "Smart Contracts for Real-Time Payments",
     ]
 };
-
 const Technologies = {
     "web-based": {
         "front-end": {
